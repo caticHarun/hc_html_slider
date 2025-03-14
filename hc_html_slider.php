@@ -28,10 +28,14 @@ function hc_html_slider_uninstall()
 if (!class_exists('hc_html_slider_plugin')) {
     class hc_html_slider_plugin
     {
+        public function test() {
+            include plugin_dir_path(__FILE__) . 'templates/frontend/slider.html';
+        }
 
         //Construct
         public function __construct()
         {
+            add_action("wp_head", [$this, "test"]);
         }
     }
 
