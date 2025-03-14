@@ -30,7 +30,7 @@ if (!class_exists('hc_html_slider_plugin')) {
     {
 
         //Construct
-        private function __construct()
+        public function __construct()
         {
         }
     }
