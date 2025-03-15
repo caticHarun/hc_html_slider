@@ -23,10 +23,10 @@ class HC_HTML_slider_widget extends \Elementor\Widget_Base {
 	}
 
 	protected function render(): void {
-        new HC_HTML_slider_template(1);
+        new HC_HTML_slider_template(1, [1, 2, 3]);
 	}
 
 	protected function content_template(): void {
-        new HC_HTML_slider_template(1,);
+        new HC_HTML_slider_template(1, [1, 2, 3]);
 	}
 }

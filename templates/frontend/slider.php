@@ -17,6 +17,7 @@ class HC_HTML_slider_template
 
     public function __construct(
         $id,
+        $items,
         $transition_speed = 1500,
         $interval_speed = 2000,
         $first_timeout_speed = 1000
@@ -29,12 +30,9 @@ class HC_HTML_slider_template
         <div id="hc_slider_container" class="w-full overflow-hidden">
             <div class="w-full flex" id="<?= $this->slider_id ?>">
                 <?php
-                $this->singleItem(1);
-                $this->singleItem(2);
-                $this->singleItem(3);
-                $this->singleItem(4);
-                $this->singleItem(5);
-                $this->singleItem(6);
+                for ($i = 0; $i < count($items); $i++) {
+                    $this->singleItem($items[$i]);
+                }
                 ?>
             </div>
         </div>
