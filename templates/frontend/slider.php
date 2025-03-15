@@ -15,9 +15,22 @@ class HC_HTML_slider_template
         <?php
     }
 
+    /**
+     * Summary of __construct
+     * @param mixed $id = string | number
+     * @param mixed $items = array()
+     * @param mixed $responsive | breakpoints for single items | = ["breakpoint" => "number", "width" => "string"]
+     * @param mixed $transition_speed = number
+     * @param mixed $interval_speed = number
+     * @param mixed $first_timeout_speed = number
+     */
     public function __construct(
         $id,
-        $items,
+        $items = [],
+        $responsive = [
+            ["breakpoint" => 900, "width" => "50%"],
+            ["breakpoint" => 700, "width" => "100%"],
+        ],
         $transition_speed = 1500,
         $interval_speed = 2000,
         $first_timeout_speed = 1000
@@ -44,6 +57,27 @@ class HC_HTML_slider_template
                     <?= "transform " . $transition_speed . "ms ease-in-out" ?>
                 ;
             }
+
+            <?php
+            for ($i = 0; $i < count(($responsive)); $i++) {
+                $point = $responsive[$i];
+
+                ?>
+
+                <?= "@media screen and (max-width: " . $point["breakpoint"] . "px)" ?>
+                    {
+
+                    <?= ".$this->slide_id" ?>
+                        {
+                        <?= "width: " . $point["width"] . ";" ?>
+                        <?= "min-width: " . $point["width"] . ";" ?>
+                        <?= "max-width: " . $point["width"] . ";" ?>
+                    }
+                }
+
+                <?php
+            }
+            ?>
         </style>
 
         <script>
