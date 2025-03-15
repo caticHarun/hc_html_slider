@@ -51,64 +51,87 @@ class HC_HTML_slider_template
 
         <script>
             window.addEventListener("load", () => {
+                //HC_UPDATE change every function to const
                 function delay(milliseconds) {
                     return new Promise(resolve => {
                         setTimeout(resolve, milliseconds);
                     });
                 }
 
+                function isInViewport(element) {
+                    const rect = element.getBoundingClientRect();
+                    const scrolledHeight = window.innerHeight;
+
+                    console.log('scrolled', scrolledHeight, rect.top, rect.bottom); //HC_REMOVE
+
+                    return (
+                        rect.top <= scrolledHeight && // Bottom of the element is inside viewport
+                        rect.bottom > 0
+                    );
+                }
+
                 const slider = document.querySelector("<?= "#$this->slider_id" ?>");
 
-                // Create an IntersectionObserver
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(async (entry) => {
-                        if (!entry.isIntersecting) return;
+                let scrolling = false;
+                let resizeFunc;
+                let interval;
+                document.addEventListener("scroll", async () => {
+                    let intersect = isInViewport(slider)
+                    console.log('intersect', intersect); //HC_REMOVE
 
-                        //Duplicating the first three so it looks like a smooth transition
-                        const og_slides = []
-
-                        document.querySelectorAll(".<?= $this->slide_id ?>").forEach(e => og_slides.push(e.cloneNode(true)));
-
-                        //Slider Logic
-                        let index = 0;
-                        const slides = document.querySelectorAll(".<?= $this->slide_id ?>");
-                        let slideWidth = slides[0].offsetWidth; // Slide width + margin
-
-                        window.addEventListener("resize", () => {
-                            console.log('w resized'); //HC_REMOVE
-                            const slides = document.querySelectorAll(".<?= $this->slide_id ?>");
-                            slideWidth = slides[0].offsetWidth;
-                            index = 0;
-                            slider.style.transform = `translateX(-${0}px)`;
-
-                            slides.forEach((slide, slideIndex) => {
-                                if (slideIndex > og_slides.length - 1) slider.removeChild(slide);
-                            })
-                        })
-
-                        async function moveSlider() {
-                            index++;
-                            let slideToTransfer = (index % og_slides.length) - 1;
-                            if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1
-                            console.log('slide', slideToTransfer); //HC_REMOVE
-
-
-                            slider.style.transform = `translateX(-${index * slideWidth}px)`;
-
-
-                            slider.appendChild(og_slides[slideToTransfer].cloneNode(true))
+                    if (!intersect) {
+                        scrolling = false;
+                        if (resizeFunc) {
+                            resizeFunc();
+                            window.removeEventListener("resize", resizeFunc)
                         }
+                        if (interval) clearTimeout(interval);
+                        return;
+                    }
 
-                        await delay(<?= $first_timeout_speed ?>);
-                        moveSlider();
-                        setInterval(moveSlider, <?= $interval_speed ?>);
+                    if (scrolling) return;
+                    scrolling = true;
 
-                        observer.disconnect();
-                    });
-                }, { threshold: 1 }); // Triggers when 100% of the element is visible
+                    //Duplicating the first three so it looks like a smooth transition
+                    const og_slides = []
 
-                // Start observing the element
-                observer.observe(slider);
+                    document.querySelectorAll(".<?= $this->slide_id ?>").forEach(e => og_slides.push(e.cloneNode(true)));
+
+                    //Slider Logic
+                    let index = 0;
+                    const slides = document.querySelectorAll(".<?= $this->slide_id ?>");
+                    let slideWidth = slides[0].offsetWidth; // Slide width + margin
+
+                    resizeFunc = () => {
+                        console.log('w resized'); //HC_REMOVE
+                        const slides = document.querySelectorAll(".<?= $this->slide_id ?>");
+                        slideWidth = slides[0].offsetWidth;
+                        index = 0;
+                        slider.style.transform = `translateX(-${0}px)`;
+
+                        slides.forEach((slide, slideIndex) => {
+                            if (slideIndex > og_slides.length - 1) slider.removeChild(slide);
+                        })
+                    };
+                    window.addEventListener("resize", resizeFunc)
+
+                    async function moveSlider() {
+                        index++;
+                        let slideToTransfer = (index % og_slides.length) - 1;
+                        if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1
+                        console.log('slide', slideToTransfer); //HC_REMOVE
+
+
+                        slider.style.transform = `translateX(-${index * slideWidth}px)`;
+
+
+                        slider.appendChild(og_slides[slideToTransfer].cloneNode(true))
+                    }
+
+                    await delay(<?= $first_timeout_speed ?>);
+                    moveSlider();
+                    interval = setInterval(moveSlider, <?= $interval_speed ?>);
+                })
             })
         </script>
         <?php
