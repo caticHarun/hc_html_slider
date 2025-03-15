@@ -58,18 +58,30 @@ class HC_HTML_slider_template
 
                 //Duplicating the first three so it looks like a smooth transition
                 const og_slides = []
-                
+
                 document.querySelectorAll(".hc_slide").forEach(e => og_slides.push(e.cloneNode(true)));
 
                 //Slider Logic
                 let index = 0;
                 const slides = document.querySelectorAll(".hc_slide");
-                const slideWidth = slides[0].offsetWidth; // Slide width + margin
+                let slideWidth = slides[0].offsetWidth; // Slide width + margin
+
+                window.addEventListener("resize", () => {
+                    console.log('w resized'); //HC_REMOVE
+                    const slides = document.querySelectorAll(".hc_slide");
+                    slideWidth = slides[0].offsetWidth;
+                    index = 0;
+                    slider.style.transform = `translateX(-${0}px)`;
+
+                    slides.forEach((slide, slideIndex) => {
+                        if (slideIndex > og_slides.length - 1) slider.removeChild(slide);
+                    })
+                })
 
                 async function moveSlider() {
                     index++;
                     let slideToTransfer = (index % og_slides.length) - 1;
-                    if(slideToTransfer < 0) slideToTransfer = og_slides.length-1
+                    if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1
                     console.log('slide', slideToTransfer); //HC_REMOVE
 
 
