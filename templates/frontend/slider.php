@@ -26,7 +26,6 @@ class HC_HTML_slider_template
         $this->slide_id = "hc_" . $id . "_slide";
 
         ?>
-        <!-- //HC_UPDATE remove mt -->
         <div id="hc_slider_container" class="w-full overflow-hidden">
             <div class="w-full flex" id="<?= $this->slider_id ?>">
                 <?php
@@ -51,18 +50,15 @@ class HC_HTML_slider_template
 
         <script>
             window.addEventListener("load", () => {
-                //HC_UPDATE change every function to const
-                function delay(milliseconds) {
+                const delay = (milliseconds) => {
                     return new Promise(resolve => {
                         setTimeout(resolve, milliseconds);
                     });
                 }
 
-                function isInViewport(element) {
+                const isInViewport = (element) => {
                     const rect = element.getBoundingClientRect();
                     const scrolledHeight = window.innerHeight;
-
-                    console.log('scrolled', scrolledHeight, rect.top, rect.bottom); //HC_REMOVE
 
                     return (
                         rect.top <= scrolledHeight && // Bottom of the element is inside viewport
@@ -75,9 +71,9 @@ class HC_HTML_slider_template
                 let scrolling = false;
                 let resizeFunc;
                 let interval;
-                document.addEventListener("scroll", async () => {
+
+                const scrollFunc = async () => {
                     let intersect = isInViewport(slider)
-                    console.log('intersect', intersect); //HC_REMOVE
 
                     if (!intersect) {
                         scrolling = false;
@@ -103,7 +99,6 @@ class HC_HTML_slider_template
                     let slideWidth = slides[0].offsetWidth; // Slide width + margin
 
                     resizeFunc = () => {
-                        console.log('w resized'); //HC_REMOVE
                         const slides = document.querySelectorAll(".<?= $this->slide_id ?>");
                         slideWidth = slides[0].offsetWidth;
                         index = 0;
@@ -115,15 +110,12 @@ class HC_HTML_slider_template
                     };
                     window.addEventListener("resize", resizeFunc)
 
-                    async function moveSlider() {
+                    const moveSlider = () => {
                         index++;
                         let slideToTransfer = (index % og_slides.length) - 1;
                         if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1
-                        console.log('slide', slideToTransfer); //HC_REMOVE
-
 
                         slider.style.transform = `translateX(-${index * slideWidth}px)`;
-
 
                         slider.appendChild(og_slides[slideToTransfer].cloneNode(true))
                     }
@@ -131,7 +123,9 @@ class HC_HTML_slider_template
                     await delay(<?= $first_timeout_speed ?>);
                     moveSlider();
                     interval = setInterval(moveSlider, <?= $interval_speed ?>);
-                })
+                };
+                scrollFunc();
+                document.addEventListener("scroll", scrollFunc)
             })
         </script>
         <?php
