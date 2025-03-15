@@ -1,4 +1,5 @@
 <?php 
+require plugin_dir_path(__FILE__) . '../templates/frontend/slider.php';
 class HC_HTML_slider_widget extends \Elementor\Widget_Base {
 
 	public function get_name(): string {
@@ -22,10 +23,10 @@ class HC_HTML_slider_widget extends \Elementor\Widget_Base {
 	}
 
 	protected function render(): void {
-		require plugin_dir_path(__FILE__) . '../templates/frontend/slider.php';
+        new HC_HTML_slider_template(1);
 	}
 
 	protected function content_template(): void {
-		require plugin_dir_path(__FILE__) . '../templates/frontend/slider.php';
+        new HC_HTML_slider_template(1,);
 	}
 }
