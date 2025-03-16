@@ -105,8 +105,6 @@ class HC_HTML_slider_template
                 let interval;
 
                 const scrollFunc = async () => {
-                    console.log('scroll'); //HC_REMOVE
-
                     let intersect = isInViewport(slider);
 
                     if (!intersect) {
@@ -147,7 +145,7 @@ class HC_HTML_slider_template
                     const moveSlider = () => {
                         index++;
                         let slideToTransfer = (index % og_slides.length) - 1;
-                        if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1
+                        if (slideToTransfer < 0) slideToTransfer = og_slides.length - 1;
 
                         slider.style.transform = `translateX(-${index * slideWidth}px)`;
 
