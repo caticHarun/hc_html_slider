@@ -160,6 +160,32 @@ class HC_HTML_slider_template
                 document.addEventListener("scroll", scrollFunc)
             })
         </script>
+
+        <style>
+            .flex {
+                display: flex;
+            }
+
+            .w-1\/3 {
+                width: calc(1/3 * 100%);
+            }
+
+            .w-full {
+                width: 100%;
+            }
+
+            .max-w-1\/3 {
+                max-width: calc(1/3 * 100%);
+            }
+
+            .min-w-1\/3 {
+                min-width: calc(1/3 * 100%);
+            }
+
+            .overflow-hidden {
+                overflow: hidden;
+            }
+        </style>
         <?php
     }
 }

@@ -27,6 +27,7 @@ function hc_html_slider_uninstall()
 //Programming logic
 if (!class_exists('HC_html_slider_plugin')) {
     require plugin_dir_path(__FILE__) . '/templates/frontend/slider.min.php';
+    // require plugin_dir_path(__FILE__) . '/templates/frontend/slider.php';
     class HC_html_slider_plugin
     {
         // Data
@@ -47,6 +48,7 @@ if (!class_exists('HC_html_slider_plugin')) {
         // Widgets
         public function firstSlider() {
             require plugin_dir_path(__FILE__) . '/templates/sliders/firstSlider/firstSlider.min.php';
+            // require plugin_dir_path(__FILE__) . '/templates/sliders/firstSlider/firstSlider.php';
             ob_start();
             new HC_HTML_slider_template(1, HC_HTML_First_Slider::get());
             return ob_get_clean();
@@ -56,7 +58,7 @@ if (!class_exists('HC_html_slider_plugin')) {
         public function __construct()
         {
             //Tailwind
-            add_action("wp_enqueue_scripts", [$this, "loadTailwind"]);
+            // add_action("wp_enqueue_scripts", [$this, "loadTailwind"]);
 
             //Widgets
             add_shortcode('firstSlider', [$this, "firstSlider"]);
