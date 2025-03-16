@@ -9,7 +9,7 @@ class HC_HTML_slider_template
     public function singleItem($i)
     {
         ?>
-        <div class="min-h-[80px] border <?= $this->slide_id ?> min-w-1/3 max-w-1/3 w-1/3 p-2">
+        <div class="<?= $this->slide_id ?> min-w-1/3 max-w-1/3 w-1/3">
             <?= $i ?>
         </div>
         <?php
