@@ -86,7 +86,7 @@ class HC_HTML_slider_template
                     return new Promise(resolve => {
                         setTimeout(resolve, milliseconds);
                     });
-                }
+                };
 
                 const isInViewport = (element) => {
                     const rect = element.getBoundingClientRect();
@@ -96,7 +96,7 @@ class HC_HTML_slider_template
                         rect.top <= scrolledHeight && // Bottom of the element is inside viewport
                         rect.bottom > 0
                     );
-                }
+                };
 
                 const slider = document.querySelector("<?= "#$this->slider_id" ?>");
 
@@ -105,7 +105,9 @@ class HC_HTML_slider_template
                 let interval;
 
                 const scrollFunc = async () => {
-                    let intersect = isInViewport(slider)
+                    console.log('scroll'); //HC_REMOVE
+
+                    let intersect = isInViewport(slider);
 
                     if (!intersect) {
                         scrolling = false;
@@ -121,7 +123,7 @@ class HC_HTML_slider_template
                     scrolling = true;
 
                     //Duplicating the first three so it looks like a smooth transition
-                    const og_slides = []
+                    const og_slides = [];
 
                     document.querySelectorAll(".<?= $this->slide_id ?>").forEach(e => og_slides.push(e.cloneNode(true)));
 
@@ -140,7 +142,7 @@ class HC_HTML_slider_template
                             if (slideIndex > og_slides.length - 1) slider.removeChild(slide);
                         })
                     };
-                    window.addEventListener("resize", resizeFunc)
+                    window.addEventListener("resize", resizeFunc);
 
                     const moveSlider = () => {
                         index++;
@@ -150,7 +152,7 @@ class HC_HTML_slider_template
                         slider.style.transform = `translateX(-${index * slideWidth}px)`;
 
                         slider.appendChild(og_slides[slideToTransfer].cloneNode(true))
-                    }
+                    };
 
                     await delay(<?= $first_timeout_speed ?>);
                     moveSlider();

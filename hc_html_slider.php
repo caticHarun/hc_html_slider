@@ -26,7 +26,7 @@ function hc_html_slider_uninstall()
 
 //Programming logic
 if (!class_exists('HC_html_slider_plugin')) {
-    require plugin_dir_path(__FILE__) . '/templates/frontend/slider.php';
+    require plugin_dir_path(__FILE__) . '/templates/frontend/slider.min.php';
     class HC_html_slider_plugin
     {
         // Data
