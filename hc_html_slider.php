@@ -46,8 +46,9 @@ if (!class_exists('HC_html_slider_plugin')) {
 
         // Widgets
         public function firstSlider() {
+            require plugin_dir_path(__FILE__) . '/templates/sliders/firstSlider/firstSlider.min.php';
             ob_start();
-            new HC_HTML_slider_template(1, ["h", "a", "r"]);
+            new HC_HTML_slider_template(1, HC_HTML_First_Slider::get());
             return ob_get_clean();
         }
 
